@@ -1,2 +1,2 @@
 # super_mario_catalog
-a udemy project
+This is Ethan's udemy project
