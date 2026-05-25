@@ -49,6 +49,8 @@ CREATE TABLE IF NOT EXISTS characters_roles (
 
 
 ```
+<img width="1536" height="1024" alt="super_mario_catalog" src="https://github.com/user-attachments/assets/92aac6f3-045a-4523-b16f-9d3e6f77173f" />
+
 
 ## Sample SQL Inserts
 ```sql
