@@ -118,7 +118,7 @@ VALUES
 (11, 'Kong', 'Powerful ape from Donkey Kong Island.'),
 (12, 'Koopa', 'Young Koopa and son of Bowser.');
 
--- Character-role relationships
+-- Character-role relationships.
 INSERT INTO characters_roles
 (character_id, role_id, description)
 VALUES
