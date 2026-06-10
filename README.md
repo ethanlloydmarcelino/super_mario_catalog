@@ -146,4 +146,4 @@ VALUES
 
 # API
 
-/catalog/characters-get-all/: GET all characters
+/catalog/characters-get-all/ - GET all characters
