@@ -144,6 +144,6 @@ VALUES
 
 ```
 
-#API
+# API
 
 /catalog/characters-get-all/: GET all characters
