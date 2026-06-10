@@ -143,3 +143,7 @@ VALUES
 (12, 8, 'Appears as a boss or major enemy in several games.');
 
 ```
+
+#API
+
+/catalog/characters-get-all/: GET all characters
