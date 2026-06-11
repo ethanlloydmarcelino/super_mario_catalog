@@ -16,7 +16,7 @@ class Characters(models.Model):
 
 class Factions(models.Model):
     id = models.BigAutoField(primary_key=True)
-    character = models.ForeignKey(Characters, on_delete=models.CASCADE)
+    character = models.ForeignKey(Characters, on_delete=models.CASCADE, db_column='character_id')
     faction_name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
 

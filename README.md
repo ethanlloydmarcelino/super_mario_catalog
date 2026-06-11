@@ -147,3 +147,4 @@ VALUES
 # API
 
 /catalog/characters-get-all/ - GET all characters
+/catalog/characters/<int:character_id>/factions/ - GET the faction for character id
