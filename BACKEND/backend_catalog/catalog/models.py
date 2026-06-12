@@ -53,3 +53,18 @@ class CharactersRoles(models.Model):
         managed = False
         db_table = 'characters_roles'
         unique_together = (('character', 'role'),)
+
+class CharactersAllView(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    main_ability = models.CharField(max_length=255, blank=True, null=True)
+    role = models.ForeignKey(Roles, on_delete=models.CASCADE, db_column='role_id')
+    description = models.TextField(blank=True, null=True)
+    role_name = models.CharField(max_length=255)
+    faction_name = models.CharField(max_length=255)
+    species_name = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'characters_all_view'
+

@@ -3,7 +3,78 @@ from .models import *
 from django.shortcuts import get_object_or_404
 import json
 
+def view_all_characters(request):
+    characters_all_view = CharactersAllView.objects.all()
+    characters_all_view_serialized = []
 
+    for character in characters_all_view:
+        characters_all_view_serialized.append(
+            {
+                "id": character.id,
+                "name": character.name,
+                "main_ability": character.main_ability,
+                "role_id": character.role_id,
+                "description": character.description,
+                "role_name": character.role_name,
+                "faction_name": character.faction_name,
+                "species_name": character.species_name
+            }
+        )
+
+    print(characters_all_view_serialized)
+
+    return JsonResponse(characters_all_view_serialized, safe=False)
+
+def update_character(request, character_id):
+    if request.method == 'PATCH':
+        character = get_object_or_404(Characters, pk=character_id)
+        data = json.loads(request.body)
+
+        if 'name' in data:
+            character.name = data['name']
+        
+        if 'first_appearance' in data:
+            character.first_appearance = data['first_appearance']
+
+        if 'home_location' in data:
+            character.home_location = data['home_location']
+
+        if 'main_ability' in data:
+            character.main_ability = data['main_ability']
+
+        if 'is_playable' in data:
+            character.is_playable = data['is_playable']
+
+        if 'popularity_rating' in data:
+            character.popularity_rating = data['popularity_rating']
+
+        if 'notes' in data:
+            character.notes = data['notes']
+
+        character.save()
+
+        return JsonResponse({
+            "id": character.id,
+            "name": character.name,
+            "first_appearance": character.first_appearance,
+            "home_location": character.home_location,
+            "main_ability": character.main_ability,
+            "is_playable": character.is_playable,
+            "popularity_rating": character.popularity_rating,
+            "notes": character.notes
+        })
+    else:
+        return HttpResponse('This is a PATCH only endpoint!', status=405)
+
+def delete_character(request, character_id):
+    if request.method == 'DELETE':
+        character = get_object_or_404(Characters, pk=character_id)
+
+        character.delete()
+
+        return HttpResponse(f'Character with id {character_id} was deleted!', status=200)
+    else:
+        return HttpResponse('This is a DELETE only endpoint!', status=405)
 
 def create_character(request):
     if request.method == 'POST':
@@ -11,7 +82,12 @@ def create_character(request):
 
         character = Characters.objects.create(
             name = data['name'],
-            first_appearance = data['first_appearance']
+            first_appearance = data['first_appearance'],
+            home_location = data['home_location'],
+            main_ability = data['main_ability'],
+            is_playable = data['is_playable'],
+            popularity_rating = data['popularity_rating'],
+            notes = data['notes']
         )
         
         return JsonResponse({

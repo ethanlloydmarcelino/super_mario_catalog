@@ -148,3 +148,5 @@ VALUES
 
 /catalog/characters-get-all/ - GET all characters
 /catalog/characters/<int:character_id>/factions/ - GET the faction for character id
+/catalog/characters/create/ - POST new character
+/catalog/characters/delete/<int:character_id>/ - DELETE character
