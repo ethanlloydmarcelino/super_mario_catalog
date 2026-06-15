@@ -11,11 +11,11 @@ urlpatterns = [
     path('characters/create', create_character),
     path('characters/delete/<int:character_id>', delete_character),
     path('characters/update/<int:character_id>', update_character),
-    path('characters-all-view/', view_all_characters)
+    path('characters-all-view/', view_all_characters),
 
     # Factions
-    # path('factions/create', create_faction),
-    # path('factions/delete/<int:character_id>', delete_faction),
-    # path('factions/update/<int:character_id>', update_faction),
+    path('factions/create', create_faction),
+    path('factions/delete/<int:faction_id>', delete_faction),
+    path('factions/update/<int:faction_id>', update_faction),
 ]
 

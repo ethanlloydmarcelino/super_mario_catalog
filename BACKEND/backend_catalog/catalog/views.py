@@ -3,6 +3,60 @@ from .models import *
 from django.shortcuts import get_object_or_404
 import json
 
+def create_faction(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        faction = Factions.objects.create(
+            character_id = data.get('character_id'),
+            faction_name = data['faction_name'],
+            description = data.get('description') # This will return None if the key is not found
+        )
+        
+        return JsonResponse({
+            "id": faction.id,
+            "character_id": faction.character_id,
+            "faction_name": faction.faction_name,
+            "description": faction.description
+        })
+    else:
+        return HttpResponse('This is a POST only endpoint!', status=405)
+
+def delete_faction(request, faction_id):
+    if request.method == 'DELETE':
+        faction = get_object_or_404(Factions, pk=faction_id)
+
+        faction.delete()
+
+        return HttpResponse(f'Faction with id {faction_id} was deleted!', status=200)
+    else:
+        return HttpResponse('This is a DELETE only endpoint!', status=405)
+
+def update_faction(request, faction_id):
+    if request.method == 'PATCH':
+        faction = get_object_or_404(Factions, pk=faction_id)
+        data = json.loads(request.body)
+
+        if 'character' in data:
+            faction.character_id = data['character']
+        
+        if 'faction_name' in data:
+            faction.faction_name = data['faction_name']
+
+        if 'description' in data:
+            faction.description = data['description']
+
+        faction.save()
+
+        return JsonResponse({
+            "id": faction.id,
+            "character": faction.character_id,
+            "faction_name": faction.faction_name,
+            "description": faction.description
+        })
+    else:
+        return HttpResponse('This is a PATCH only endpoint!', status=405)
+
 def view_all_characters(request):
     characters_all_view = CharactersAllView.objects.all()
     characters_all_view_serialized = []
@@ -82,12 +136,12 @@ def create_character(request):
 
         character = Characters.objects.create(
             name = data['name'],
-            first_appearance = data['first_appearance'],
-            home_location = data['home_location'],
-            main_ability = data['main_ability'],
-            is_playable = data['is_playable'],
-            popularity_rating = data['popularity_rating'],
-            notes = data['notes']
+            first_appearance = data.get('first_appearance'),
+            home_location = data.get('home_location'),
+            main_ability = data.get('main_ability'),
+            is_playable = data.get('is_playable'),
+            popularity_rating = data.get('popularity_rating'),
+            notes = data.get('notes')
         )
         
         return JsonResponse({
