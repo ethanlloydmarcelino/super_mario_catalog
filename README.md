@@ -147,11 +147,19 @@ VALUES
 # API
 
 /catalog/characters-get-all/ - GET all characters
+
 /catalog/characters/<int:character_id>/factions/ - GET the faction for character id
+
 /catalog/characters/create/ - POST new character
+
 /catalog/characters/delete/<int:character_id>/ - DELETE character
+
 /catalog/characters/update/<int:character_id>/ - PATCH character
+
 /catalog/characters-all-view/ - VIEW character
+
 /catalog/factions/create/ - POST new faction
+
 /catalog/factions/delete/<int:faction_id>/ - DELETE faction
+
 /catalog/factions/update/<int:faction_id>/ - PATCH faction
