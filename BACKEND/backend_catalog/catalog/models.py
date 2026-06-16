@@ -26,7 +26,7 @@ class Factions(models.Model):
 
 class Species(models.Model):
     id = models.BigAutoField(primary_key=True)
-    character = models.ForeignKey(Characters, on_delete=models.CASCADE)
+    character = models.ForeignKey(Characters, on_delete=models.CASCADE, db_column='character_id')
     species_name = models.CharField(max_length=255)
     description = models.CharField(max_length=255, blank=True, null=True)
 

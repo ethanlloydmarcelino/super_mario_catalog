@@ -3,6 +3,165 @@ from .models import *
 from django.shortcuts import get_object_or_404
 import json
 
+def create_roles(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        role = Roles.objects.create(
+            role_name = data['role_name'],
+            description = data.get('description') # This will return None if the key is not found
+        )
+        
+        return JsonResponse({
+            "id": role.id,
+            "role_name": role.role_name,
+            "description": role.description
+        })
+    else:
+        return HttpResponse('This is a POST only endpoint!', status=405)
+    
+def delete_roles(request, roles_id):
+    if request.method == 'DELETE':
+        role = get_object_or_404(Roles, pk=roles_id)
+
+        role.delete()
+
+        return HttpResponse(f'Role with id {roles_id} was deleted!', status=200)
+    else:
+        return HttpResponse('This is a DELETE only endpoint!', status=405)
+    
+def update_roles(request, roles_id):
+    if request.method == 'PATCH':
+        role = get_object_or_404(Roles, pk=roles_id)
+        data = json.loads(request.body)
+        
+        if 'role_name' in data:
+            role.role_name = data['role_name']
+
+        if 'description' in data:
+            role.description = data['description']
+
+        role.save()
+
+        return JsonResponse({
+            "id": role.id,
+            "role_name": role.role_name,
+            "description": role.description
+        })
+    else:
+        return HttpResponse('This is a PATCH only endpoint!', status=405)
+    
+def return_all_roles_by_character(request, id):
+    character = get_object_or_404(Characters, pk=id)
+
+    roles = Roles.objects.filter(id=id)    
+
+    roles_serialized = []
+
+    for role in roles:
+        roles_serialized.append(
+            {
+                "id": role.id,
+                "role_name": role.role_name,
+                "description": role.description
+            }
+        )
+
+    return JsonResponse({
+        "character_id": character.id,
+        "character_name": character.name,
+        "character_first_appearance": character.first_appearance,
+        "character_home_location": character.home_location,
+        "character_main_ability": character.main_ability,
+        "character_is_playable": character.is_playable,
+        "character_popularity_rating": character.popularity_rating,
+        "character_notes": character.notes,
+        "roles": roles_serialized
+    })
+
+def create_species(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        species = Species.objects.create(
+            character_id = data.get('character_id'),
+            species_name = data['species_name'],
+            description = data.get('description') # This will return None if the key is not found
+        )
+        
+        return JsonResponse({
+            "id": species.id,
+            "character_id": species.character_id,
+            "species_name": species.species_name,
+            "description": species.description
+        })
+    else:
+        return HttpResponse('This is a POST only endpoint!', status=405)
+    
+def delete_species(request, species_id):
+    if request.method == 'DELETE':
+        species = get_object_or_404(Species, pk=species_id)
+
+        species.delete()
+
+        return HttpResponse(f'Species with id {species_id} was deleted!', status=200)
+    else:
+        return HttpResponse('This is a DELETE only endpoint!', status=405)
+
+def update_species(request, species_id):
+    if request.method == 'PATCH':
+        species = get_object_or_404(Species, pk=species_id)
+        data = json.loads(request.body)
+
+        if 'character' in data:
+            species.character_id = data['character']
+        
+        if 'species_name' in data:
+            species.species_name = data['species_name']
+
+        if 'description' in data:
+            species.description = data['description']
+
+        species.save()
+
+        return JsonResponse({
+            "id": species.id,
+            "character": species.character_id,
+            "species_name": species.species_name,
+            "description": species.description
+        })
+    else:
+        return HttpResponse('This is a PATCH only endpoint!', status=405)
+    
+def return_all_species_by_character(request, character_id):
+    character = get_object_or_404(Characters, pk=character_id)
+
+    species = Species.objects.filter(character_id=character_id)    
+
+    species_serialized = []
+
+    for specie in species:
+        species_serialized.append(
+            {
+                "id": specie.id,
+                "character_id": specie.character_id,
+                "species_name": specie.species_name,
+                "description": specie.description
+            }
+        )
+
+    return JsonResponse({
+        "character_id": character.id,
+        "character_name": character.name,
+        "character_first_appearance": character.first_appearance,
+        "character_home_location": character.home_location,
+        "character_main_ability": character.main_ability,
+        "character_is_playable": character.is_playable,
+        "character_popularity_rating": character.popularity_rating,
+        "character_notes": character.notes,
+        "species": species_serialized
+    })
+
 def create_faction(request):
     if request.method == 'POST':
         data = json.loads(request.body)

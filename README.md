@@ -150,6 +150,8 @@ VALUES
 
 /catalog/characters/<int:character_id>/factions/ - GET the faction for character id
 
+/catalog/characters/<int:character_id>/species/ - GET the species for character id
+
 /catalog/characters/create/ - POST new character
 
 /catalog/characters/delete/<int:character_id>/ - DELETE character
@@ -163,3 +165,9 @@ VALUES
 /catalog/factions/delete/<int:faction_id>/ - DELETE faction
 
 /catalog/factions/update/<int:faction_id>/ - PATCH faction
+
+/catalog/species/create/ - POST new species
+
+/catalog/species/delete/<int:species_id>/ - DELETE species
+
+/catalog/species/update/<int:species_id>/ - PATCH species
