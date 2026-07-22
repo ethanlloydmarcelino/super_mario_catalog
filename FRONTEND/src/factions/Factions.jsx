@@ -1,25 +1,37 @@
 import { getFactions } from "../services/factionService";
 import { useEffect, useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
 
 const Factions = () => {
-    const [factions, setFactions] = useState([]);
+  const [factions, setFactions] = useState([]);
 
-    useEffect(() => {
-        async function fetchData () {
-             try {
-            const data = await getFactions();
-            setFactions(data);
-            } 
-            catch (error){
-                console.error(error);
-            }
-        }
-        fetchData(); 
-    }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getFactions(2);
+        setFactions(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
 
-    console.log(factions)
+  const columns = [
+    { field: "id", headerName: "ID", width: 50 },
+    { field: "character_id", headerName: "Character_id", width: 150 },
+    { field: "faction_name", headerName: "Faction_name", width: 150 },
+    { field: "description", headerName: "Description", width: 150 }
+  ];
 
-    return <h1>Factions</h1>;
+  console.log(factions);
+
+  return (
+    <>
+      <h1>Factions</h1>
+      <DataGrid rows={factions} columns={columns}></DataGrid>
+    </>
+  );
 };
 
 export default Factions;
