@@ -51,8 +51,7 @@ export const deleteFaction = async (factionId, character_id) => {
         const response = await fetch(`http://localhost:8000/catalog/characters/${character_id}/factions/delete/${factionId}`,{
             method: 'DELETE'
         });
-        const parsedResponse = await response.json();
-        return parsedResponse;
+        return response.ok;
     }
     catch (error) {
         console.error(error);
