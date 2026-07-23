@@ -9,7 +9,7 @@ const Factions = () => {
     const fetchData = async () => {
       try {
         const data = await getFactions(2);
-        setFactions(data);
+        setFactions(data.factions);
       } catch (error) {
         console.error(error);
       }
@@ -20,7 +20,7 @@ const Factions = () => {
   const columns = [
     { field: "id", headerName: "ID", width: 50 },
     { field: "character_id", headerName: "Character_id", width: 150 },
-    { field: "faction_name", headerName: "Faction_name", width: 150 },
+    { field: "faction_name", headerName: "Faction Name", width: 150 },
     { field: "description", headerName: "Description", width: 150 }
   ];
 
