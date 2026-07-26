@@ -10,6 +10,18 @@ export const getFactions = async (character_id) => {
     }
 }
 
+export const getAllFactions = async () => {
+    try {
+        const response = await fetch(`http://localhost:8000/catalog/factions/`);
+        const parsedResponse = await response.json();
+        return parsedResponse;
+    }
+    catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
 export const createFaction = async (character_id, factionData) => {
     try {
         const response = await fetch(`http://localhost:8000/catalog/characters/${character_id}/factions/create`,{

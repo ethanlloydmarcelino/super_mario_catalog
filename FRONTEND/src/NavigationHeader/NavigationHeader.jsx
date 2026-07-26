@@ -8,9 +8,9 @@ const NavigationHeader = () => {
         <>
             <AppBar postition="static" sx={{ backgroundColor: 'black' }}>
                 <Toolbar>
-                    <Button onClick={() => {navigate("/characters")}} variant="outlined" color="white">Characters</Button>
+                    <Button onClick={() => {navigate("/characters")}}  color="white">Characters</Button>
                     <Button onClick={() => {navigate("/species")}} color="white">Species</Button>
-                    <Button onClick={() => {navigate("/factions")}} variant="outlined" color="white">Factions</Button>
+                    <Button onClick={() => {navigate("/factions")}}  color="white">Factions</Button>
                     <Button onClick={() => {navigate("/roles")}} color="white">Roles</Button>
                 </Toolbar>
             </AppBar>
