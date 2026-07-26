@@ -367,6 +367,24 @@ def return_all_characters(request):
 
     return JsonResponse(characters_serialized, safe=False)
 
+def return_all_factions(request):
+    factions = Factions.objects.all()
+    factions_serialized = []
+
+    for faction in factions:
+        factions_serialized.append(
+            {
+                "id": faction.id,
+                "character_id": faction.character_id,
+                "faction_name": faction.faction_name,
+                "description": faction.description
+            }
+        )
+
+    print(factions_serialized)
+
+    return JsonResponse(factions_serialized, safe=False)
+
 def simple_test(request):
     return HttpResponse('Error 404 page not found :(')
 

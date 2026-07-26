@@ -16,6 +16,7 @@ urlpatterns = [
     path('characters-all-view/', view_all_characters),
 
     # Factions
+    path('factions/', return_all_factions),
     path('factions/create', create_faction),
     path('factions/delete/<int:faction_id>', delete_faction),
     path('factions/update/<int:faction_id>', update_faction),
