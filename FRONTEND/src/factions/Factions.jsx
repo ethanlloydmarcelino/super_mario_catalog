@@ -25,7 +25,18 @@ const Factions = () => {
     { field: "id", headerName: "ID", width: 50 },
     { field: "character_id", headerName: "Character_id", width: 100 },
     { field: "faction_name", headerName: "Faction Name", width: 200 },
-    { field: "description", headerName: "Description", width: 430 }
+    { field: "description", headerName: "Description", width: 430, renderCell: (params) => (
+      <>
+        <Button
+          variant="outlined"
+          onClick={() =>{
+
+          }}
+        >
+
+        </Button>
+      </>
+    )}
   ];
 
   // console.log(factions);
