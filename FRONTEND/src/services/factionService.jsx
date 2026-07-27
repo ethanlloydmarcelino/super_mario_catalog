@@ -22,9 +22,9 @@ export const getAllFactions = async () => {
     }
 }
 
-export const createFaction = async (character_id, factionData) => {
+export const createFaction = async (factionData) => {
     try {
-        const response = await fetch(`http://localhost:8000/catalog/characters/${character_id}/factions/create`,{
+        const response = await fetch(`http://localhost:8000/catalog/factions/create`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
