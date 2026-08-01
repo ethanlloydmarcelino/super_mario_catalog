@@ -47,7 +47,26 @@ CREATE TABLE IF NOT EXISTS characters_roles (
 	UNIQUE (character_id, role_id)
 );
 
-
+CREATE VIEW characters_all_view AS
+SELECT
+	CHA.id,
+    CHA.name,
+    CHA.main_ability,
+    ROLES.role_id,
+    ROLES.description,
+    R.role_name,
+    FAC.faction_name,
+    SPE.species_name
+FROM 
+	characters AS CHA
+    INNER JOIN characters_roles AS ROLES
+    ON CHA.id = ROLES.character_id
+    INNER JOIN roles AS R
+    ON R.id = ROLES.role_id
+    INNER JOIN factions AS FAC
+    ON FAC.character_id = CHA.id
+    INNER JOIN species AS SPE
+    ON SPE.character_id = CHA.id
 ```
 <img width="1536" height="1024" alt="super_mario_catalog" src="https://github.com/user-attachments/assets/92aac6f3-045a-4523-b16f-9d3e6f77173f" />
 
