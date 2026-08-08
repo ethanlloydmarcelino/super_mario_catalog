@@ -138,6 +138,7 @@ const CharacterModal = ({
               name="is_playable"
               value={formData.is_playable}
               onChange={handleChange}
+              type="number"
               fullWidth
             />
 
@@ -145,6 +146,7 @@ const CharacterModal = ({
               label="Popularity Rating"
               name="popularity_rating"
               value={formData.popularity_rating}
+              type="number"
               onChange={handleChange}
               fullWidth
             />
