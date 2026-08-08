@@ -1,5 +1,5 @@
 # super_mario_catalog
-This is Ethan's udemy project
+This is Ethan's project
 
 ### SQL Scripts
 ```sql
