@@ -40,9 +40,9 @@ export const createFaction = async (factionData) => {
     }
 }
 
-export const updateFaction = async (factionId, character_id, factionData) => {
+export const updateFaction = async (factionId, factionData) => {
     try {
-        const response = await fetch(`http://localhost:8000/catalog/characters/${character_id}/factions/update/${factionId}`,{
+        const response = await fetch(`http://localhost:8000/catalog/factions/update/${factionId}`,{
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,9 +58,9 @@ export const updateFaction = async (factionId, character_id, factionData) => {
     }
 }
 
-export const deleteFaction = async (factionId, character_id) => {
+export const deleteFaction = async (factionId) => {
     try {
-        const response = await fetch(`http://localhost:8000/catalog/characters/${character_id}/factions/delete/${factionId}`,{
+        const response = await fetch(`http://localhost:8000/catalog/factions/delete/${factionId}`,{
             method: 'DELETE'
         });
         return response.ok;
