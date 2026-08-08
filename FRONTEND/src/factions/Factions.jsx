@@ -78,7 +78,7 @@ const Factions = () => {
     setSelectedFaction({})
     setModalOpen(true);
   }
-
+console.log(selectedFaction)
   return (
     <>
       <h1>Factions</h1>

@@ -1,118 +1,156 @@
-import { Modal, Box, Typography, TextField, Button, MenuItem } from "@mui/material";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography,
+  TextField,
+  Button,
+  MenuItem,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+
 import { createFaction, updateFaction } from "../services/factionService";
-import { useState, useEffect } from "react";
 import { getAllCharacters } from "../services/charactersService";
 
-const FactionModal = ({ modalOpen, setModalOpen, selectedFaction, setIsAdd }) => {
-  const isCreate = selectedFaction.id === undefined;
+const FactionModal = ({
+  modalOpen,
+  setModalOpen,
+  selectedFaction,
+  setIsAdd,
+}) => {
+  const isCreate = selectedFaction?.id === undefined;
+
   const [formData, setFormData] = useState({
     character_id: "",
     faction_name: "",
     description: "",
   });
+
   const [characters, setCharacters] = useState([]);
 
-  //Get all characters and character_id
+  // Get all characters
   useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const data = await getAllCharacters();
-          setCharacters(data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      fetchData();
-    }, []);
+    const fetchData = async () => {
+      try {
+        const data = await getAllCharacters();
+        setCharacters(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
+    fetchData();
+  }, []);
+
+  // Populate form when editing a faction
   useEffect(() => {
     setFormData({
-      character_id: selectedFaction.character_id || "",
-      faction_name: selectedFaction.faction_name || "",
-      description: selectedFaction.description || "",
+      character_id: selectedFaction?.character_id || "",
+      faction_name: selectedFaction?.faction_name || "",
+      description: selectedFaction?.description || "",
     });
-  }, [selectedFaction, setModalOpen]);
+  }, [selectedFaction]);
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    bgcolor: "white",
-    width: 300,
-    height: 300,
-    transform: "translate(-50%, -50%)",
-    p: 3,
-    borderRadius: 1,
-    boxShadow: 24,
+  const handleClose = () => {
+    setModalOpen(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      if (isCreate){
+      if (isCreate) {
         await createFaction(formData);
-      }
-      else{
+      } else {
         await updateFaction(selectedFaction.id, formData);
       }
+
       setIsAdd(true);
-      setModalOpen(false);
-    } 
-    catch (error) {
+      handleClose();
+    } catch (error) {
       console.error(error);
     }
   };
-console.log("formData", formData);
-console.log("selectedFaction", selectedFaction)
-console.log("characters", characters)
+
   return (
-    <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-      <Box sx={style}>
-        <Typography>
+    <Dialog
+      open={modalOpen}
+      onClose={handleClose}
+      fullWidth
+      maxWidth="sm"
+    >
+      <form onSubmit={handleSubmit}>
+        <DialogTitle>
           {isCreate ? "Creating Faction" : "Updating Faction"}
-        </Typography>
-        <form onSubmit={handleSubmit}>
+        </DialogTitle>
+
+        <DialogContent>
+          <Typography sx={{ mb: 2 }}>
+            {isCreate
+              ? "Enter the faction details below."
+              : "Update the faction details below."}
+          </Typography>
+
           <TextField
             label="Character"
             value={formData.character_id}
             onChange={(e) =>
-              setFormData({ ...formData, character_id: e.target.value })
+              setFormData({
+                ...formData,
+                character_id: e.target.value,
+              })
             }
             fullWidth
-            sx={{ mb: 2 }}
             select
+            sx={{ mb: 2 }}
           >
-           {
-            characters.map((charac, index) => (
-              <MenuItem key={index} value={charac.id}>{charac.name}</MenuItem>
-            ))
-           }
-           
+            {characters.map((character) => (
+              <MenuItem key={character.id} value={character.id}>
+                {character.name}
+              </MenuItem>
+            ))}
           </TextField>
+
           <TextField
             label="Faction Name"
             value={formData.faction_name}
             onChange={(e) =>
-              setFormData({ ...formData, faction_name: e.target.value })
+              setFormData({
+                ...formData,
+                faction_name: e.target.value,
+              })
             }
             fullWidth
             sx={{ mb: 2 }}
           />
+
           <TextField
             label="Description"
             value={formData.description}
             onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
+              setFormData({
+                ...formData,
+                description: e.target.value,
+              })
             }
             fullWidth
-            sx={{ mb: 2 }}
+            multiline
+            rows={3}
           />
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleClose} color="inherit">
+            Cancel
+          </Button>
+
           <Button type="submit" variant="contained">
             {isCreate ? "Create" : "Update"}
           </Button>
-        </form>
-      </Box>
-    </Modal>
+        </DialogActions>
+      </form>
+    </Dialog>
   );
 };
 
