@@ -22,6 +22,7 @@ urlpatterns = [
     path('factions/update/<int:faction_id>', update_faction),
 
     # Species
+    path('species/', return_all_species),
     path('species/create', create_species),
     path('species/delete/<int:species_id>', delete_species),
     path('species/update/<int:species_id>', update_species),

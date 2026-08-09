@@ -395,3 +395,21 @@ def simple_post_test(request):
         return HttpResponse('Data was received!')
     else:
         return HttpResponse('This is a POST only endpoint!', status=405)
+
+def return_all_species(request):
+    species = Species.objects.all()
+    species_serialized = []
+
+    for specie in species:
+        species_serialized.append(
+            {
+                "id": specie.id,
+                "character_id": specie.character_id,
+                "species_name": specie.species_name,
+                "description": specie.description
+            }
+        )
+
+    print(species_serialized)
+
+    return JsonResponse(species_serialized, safe=False)

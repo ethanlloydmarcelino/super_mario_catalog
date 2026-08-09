@@ -32,7 +32,7 @@ const Factions = () => {
       const success = await deleteFaction(factionId);
       if (success){
         setFactions(factions.filter(faction => faction.id !== factionId));
-        console.log("Owner deleted successfully");
+        console.log("Faction deleted successfully");
       }
       else {
         console.error("Failed to delete faction");
