@@ -413,3 +413,20 @@ def return_all_species(request):
     print(species_serialized)
 
     return JsonResponse(species_serialized, safe=False)
+
+def return_all_roles(request):
+    roles = Roles.objects.all()
+    roles_serialized = []
+
+    for role in roles:
+        roles_serialized.append(
+            {
+                "id": role.id,
+                "role_name": role.role_name,
+                "description": role.description
+            }
+        )
+
+    print(roles_serialized)
+
+    return JsonResponse(roles_serialized, safe=False)

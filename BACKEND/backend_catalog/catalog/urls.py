@@ -28,6 +28,7 @@ urlpatterns = [
     path('species/update/<int:species_id>', update_species),
 
     # Roles
+    path('roles/', return_all_roles),
     # path('roles/create', create_roles),
     # path('roles/delete/<int:roles_id>', delete_roles),
     # path('roles/update/<int:roles_id>', update_roles),
