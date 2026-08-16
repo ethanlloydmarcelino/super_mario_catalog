@@ -68,6 +68,36 @@ FROM
     INNER JOIN species AS SPE
     ON SPE.character_id = CHA.id
 ```
+
+### Django model for `characters_all_view`
+
+`characters_all_view` is a read-only MySQL join view. Its `role_id` value comes
+from `characters_roles.role_id`; it is not a column on the `roles` table.
+
+In Django, map this value as a regular integer field:
+
+```python
+class CharactersAllView(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    main_ability = models.CharField(max_length=255, blank=True, null=True)
+    role_id = models.BigIntegerField(db_column="role_id")
+    description = models.TextField(blank=True, null=True)
+    role_name = models.CharField(max_length=255)
+    faction_name = models.CharField(max_length=255)
+    species_name = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = "characters_all_view"
+```
+
+Do not define this field as a `ForeignKey` with `on_delete=models.CASCADE`.
+Doing so makes Django's deletion collector attempt to delete related rows from
+the join view when a role is deleted, and MySQL rejects that operation with
+error 1395 (`Can not delete from join view`). The real cascading relationship
+remains on `CharactersRoles.role`, which maps to the `characters_roles` table.
+
 <img width="1536" height="1024" alt="super_mario_catalog" src="https://github.com/user-attachments/assets/92aac6f3-045a-4523-b16f-9d3e6f77173f" />
 
 
