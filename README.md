@@ -1,6 +1,259 @@
 # super_mario_catalog
 This is Ethan's project
 
+## Super Mario Character Catalog
+
+A full-stack catalog application for exploring and managing characters from the
+Super Mario universe. The project connects a React user interface to a Django
+backend and a relational MySQL database.
+
+This application was created as a Grade 12 software development project. It
+demonstrates practical experience with frontend development, backend endpoints,
+database relationships, SQL views, debugging, and full-stack integration.
+
+> **Project status:** Active educational project. Features and documentation
+> continue to improve as new concepts are learned.
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Application Architecture](#application-architecture)
+- [Database Design](#database-design)
+- [Getting Started](#getting-started)
+- [Using the Application](#using-the-application)
+- [Challenges and Lessons Learned](#challenges-and-lessons-learned)
+- [Future Improvements](#future-improvements)
+- [SQL Scripts](#sql-scripts)
+- [API](#api)
+
+## Project Overview
+
+The Super Mario Character Catalog organizes characters and their associated
+roles, factions, and species. Users interact with the React frontend, which
+sends HTTP requests to Django. Django processes those requests and reads from or
+writes to the MySQL database.
+
+The project goes beyond storing characters in a single table. It uses foreign
+keys, cascading relationships, a junction table for character roles, and a SQL
+view that combines information from several tables for display.
+
+## Features
+
+- Browse character, role, faction, and species records.
+- Add new catalog records through reusable modal forms.
+- Update supported catalog information.
+- Delete records through Django backend endpoints.
+- Model a many-to-many relationship between characters and roles.
+- Combine related information using the `characters_all_view` SQL view.
+- Navigate between catalog sections with React Router.
+- Display structured data using Material UI components.
+- Connect the frontend and backend with asynchronous Fetch API requests.
+
+## Technology Stack
+
+### Frontend
+
+- React 19
+- JavaScript
+- Vite
+- React Router
+- Material UI and Material UI Data Grid
+- Styled Components
+- Fetch API
+
+### Backend
+
+- Python
+- Django 6
+- Django CORS Headers
+- MySQL client for Python
+- Python Dotenv
+
+### Database and development tools
+
+- MySQL
+- SQL tables, foreign keys, cascading deletes, and a join view
+- Git and GitHub for version control
+- npm for frontend dependency management
+
+## Application Architecture
+
+```text
+Browser
+   |
+   | HTTP requests and JSON responses
+   v
+React + Vite frontend (localhost:5173)
+   |
+   | Fetch API
+   v
+Django backend (localhost:8000)
+   |
+   | Django models and MySQL driver
+   v
+MySQL database
+```
+
+The frontend is located in `FRONTEND/`. The Django project is located in
+`BACKEND/backend_catalog/`, and the catalog application contains the models,
+views, and URL routes used by the API.
+
+## Database Design
+
+The database uses the following main tables:
+
+| Table | Purpose |
+| --- | --- |
+| `characters` | Stores the main information for each character. |
+| `roles` | Stores reusable character roles such as Hero or Villain. |
+| `characters_roles` | Connects characters and roles through a many-to-many relationship. |
+| `factions` | Stores the group or organization associated with a character. |
+| `species` | Stores species information associated with a character. |
+| `characters_all_view` | Read-only join view that combines related catalog information. |
+
+The `characters_roles` junction table allows one character to have multiple
+roles and one role to belong to multiple characters. Foreign keys use database
+cascades where appropriate so dependent junction records do not become orphaned.
+
+## Getting Started
+
+### Prerequisites
+
+Install the following software before running the project:
+
+- Python 3
+- Node.js and npm
+- MySQL Server
+- Git
+
+### 1. Clone the repository
+
+```bash
+git clone <repository-url>
+cd super_mario_catalog
+```
+
+Replace `<repository-url>` with the URL of this GitHub repository.
+
+### 2. Create the MySQL database
+
+Create a MySQL database, then run the table and view definitions in the
+[SQL Scripts](#sql-scripts) section. The sample inserts can be used to populate
+the catalog with demonstration data.
+
+### 3. Configure the backend environment
+
+Create `BACKEND/backend_catalog/.env` and add the local database settings:
+
+```dotenv
+DB_NAME=super_mario_catalog
+DB_USER=your_mysql_user
+DB_PASSWORD=your_mysql_password
+DB_HOST=127.0.0.1
+DB_PORT=3306
+```
+
+The `.env` file contains private local credentials and should not be committed
+to source control.
+
+### 4. Install and start the backend
+
+From the repository root:
+
+```bash
+cd BACKEND/backend_catalog
+python -m venv .venv
+```
+
+Activate the virtual environment on Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Install the backend packages and start Django:
+
+```bash
+python -m pip install django mysqlclient django-cors-headers python-dotenv
+python manage.py check
+python manage.py runserver
+```
+
+The backend will normally be available at `http://localhost:8000`.
+
+### 5. Install and start the frontend
+
+Open a second terminal from the repository root:
+
+```bash
+cd FRONTEND
+npm install
+npm run dev
+```
+
+The frontend will normally be available at `http://localhost:5173`.
+
+## Using the Application
+
+1. Start MySQL and confirm the project database is available.
+2. Start the Django backend.
+3. Start the Vite frontend in a second terminal.
+4. Open `http://localhost:5173` in a browser.
+5. Use the navigation bar to explore characters, roles, factions, and species.
+
+## Challenges and Lessons Learned
+
+### Modeling relational data
+
+The project uses a junction table because characters can have more than one
+role. Building this relationship provided experience with primary keys, foreign
+keys, uniqueness constraints, and cascading deletes.
+
+### Working with a read-only SQL view
+
+One debugging challenge occurred while deleting a role. The Django model
+initially represented `characters_all_view.role_id` as a cascading foreign key.
+Django therefore attempted to delete related rows from the join view, which
+MySQL rejected because the view is not deletable.
+
+The solution was to represent the view's `role_id` as a regular
+`BigIntegerField`. The real foreign-key relationship remains on
+`CharactersRoles.role`, where cascading behavior belongs. This issue provided a
+practical lesson in the difference between database tables, read-only views, and
+Django's deletion collector.
+
+### Full-stack communication
+
+Connecting React and Django provided experience with asynchronous requests,
+JSON responses, HTTP methods, URL routing, CORS configuration, error handling,
+and keeping the user interface synchronized with backend data.
+
+## Future Improvements
+
+- Add automated tests for Django endpoints and React components.
+- Add search, filtering, sorting, and pagination.
+- Improve validation and user-facing error messages.
+- Complete consistent create, update, and delete support for every section.
+- Add character images with accessible alternative text.
+- Improve responsive behavior for phones and tablets.
+- Add authentication and permissions for administrative operations.
+- Create pinned dependency files for reproducible backend installation.
+- Deploy the frontend, backend, and database for a public demonstration.
+- Add an entity-relationship diagram and updated application screenshots.
+
+## Academic Portfolio Context
+
+This repository is intended to show the development process as well as the final
+result. Its source code, database design, debugging notes, and commit history
+demonstrate continued learning and the ability to connect multiple technologies
+in one working application.
+
+Super Mario and related names and characters are trademarks of Nintendo. This
+is a non-commercial educational fan project and is not affiliated with or
+endorsed by Nintendo.
+
 ### SQL Scripts
 ```sql
 
