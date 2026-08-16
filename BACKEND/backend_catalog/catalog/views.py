@@ -22,9 +22,9 @@ def create_roles(request):
     
 def delete_roles(request, roles_id):
     if request.method == 'DELETE':
-        role = get_object_or_404(Roles, pk=roles_id)
+        roles = get_object_or_404(Roles, pk=roles_id)
 
-        role.delete()
+        roles.delete()
 
         return HttpResponse(f'Role with id {roles_id} was deleted!', status=200)
     else:

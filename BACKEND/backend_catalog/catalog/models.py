@@ -58,7 +58,7 @@ class CharactersAllView(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)
     main_ability = models.CharField(max_length=255, blank=True, null=True)
-    role = models.ForeignKey(Roles, on_delete=models.CASCADE, db_column='role_id')
+    role_id = models.BigIntegerField(db_column='role_id')
     description = models.TextField(blank=True, null=True)
     role_name = models.CharField(max_length=255)
     faction_name = models.CharField(max_length=255)
