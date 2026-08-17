@@ -4,6 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Button } from '@mui/material';
 import RolesModal from "./RolesModal";
 import { deleteRoles } from "../services/rolesService";
+import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -47,15 +48,15 @@ const Roles = () => {
     { field: "description", headerName: "Description", width: 430 },
     { field: "actions", headerName: "Actions", width: 300, renderCell: (params) => (
       <>
-        {/* <Button
+        <Button
           variant="outlined"
           onClick={() =>{
-            setSelectedSpecies(params.row)
+            setSelectedRoles(params.row)
             setModalOpen(true);
           }}
         >
           <EditIcon /> Edit
-        </Button> */}
+        </Button>
 
         <Button
           variant="outlined"

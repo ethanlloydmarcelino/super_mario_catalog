@@ -32,21 +32,21 @@ def delete_roles(request, roles_id):
     
 def update_roles(request, roles_id):
     if request.method == 'PATCH':
-        role = get_object_or_404(Roles, pk=roles_id)
+        roles = get_object_or_404(Roles, pk=roles_id)
         data = json.loads(request.body)
         
         if 'role_name' in data:
-            role.role_name = data['role_name']
+            roles.role_name = data['role_name']
 
         if 'description' in data:
-            role.description = data['description']
+            roles.description = data['description']
 
-        role.save()
+        roles.save()
 
         return JsonResponse({
-            "id": role.id,
-            "role_name": role.role_name,
-            "description": role.description
+            "id": roles.id,
+            "role_name": roles.role_name,
+            "description": roles.description
         })
     else:
         return HttpResponse('This is a PATCH only endpoint!', status=405)

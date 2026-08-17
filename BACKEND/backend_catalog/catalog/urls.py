@@ -9,7 +9,7 @@ urlpatterns = [
     path('characters/', return_all_characters),
     path('characters/<int:character_id>/factions/', return_all_factions_by_character),
     path('characters/<int:character_id>/species/', return_all_species_by_character),
-    # path('characters/<int:id>/roles/', return_all_roles_by_character),
+    path('characters/<int:id>/roles/', return_all_roles_by_character),
     path('characters/create', create_character),
     path('characters/delete/<int:character_id>', delete_character),
     path('characters/update/<int:character_id>', update_character),
@@ -31,6 +31,6 @@ urlpatterns = [
     path('roles/', return_all_roles),
     path('roles/create', create_roles),
     path('roles/delete/<int:roles_id>', delete_roles),
-    # path('roles/update/<int:roles_id>', update_roles),
+    path('roles/update/<int:roles_id>', update_roles),
 ]
 

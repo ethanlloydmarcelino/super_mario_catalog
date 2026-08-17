@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
-import { createRoles } from "../services/rolesService";
+import { createRoles, updateRoles } from "../services/rolesService";
 import { getAllCharacters } from "../services/charactersService";
 
 const RolesModal = ({
@@ -61,7 +61,7 @@ const RolesModal = ({
       if (isCreate) {
         await createRoles(formData);
       } else {
-        // await updateRoles(selectedRoles.id, formData);
+        await updateRoles(selectedRoles.id, formData);
         console.log("update roles")
       }
 
